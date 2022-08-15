@@ -12,6 +12,22 @@ class Vhs < ActiveRecord::Base
         3.times{Vhs.create(movie_id: movie.id)}
     end
 
+    def self.all_genres
+        Genre.pluck(:name)
+    end
+
+    def self.available_now
+        not_rented = Rental.where current: false
+        not_rented.map { |movie| Vhs.find(movie.id) }
+    end
+
+    def self.most_used
+        vhs_array = Rental.pluck(:vhs_id)
+        vhs_count = Hash.new(0)
+        vhs_array.each { |vhs| vhs_count[vhs] += 1}
+        # vhs_count.slice(0, 3)
+        vhs_count.keys.slice(0, 3).map { |tape| Vhs.find(tape) }.map { |movie| "serial number: #{movie.serial_number} | title: #{Movie.find(movie.movie_id).title}"}
+    end
 
     private
 
