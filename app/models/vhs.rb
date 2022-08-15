@@ -5,6 +5,14 @@ class Vhs < ActiveRecord::Base
 
     after_initialize :add_serial_number
 
+    def self.hot_from_the_press(title, year, length, director, description, female_director, genre)
+        movie = Movie.create(title: title, year: year, length: length, director: director, description: description, female_director: female_director)
+        movie_genre = Genre.find_or_create_by(name: genre)
+        MovieGenre.create(movie_id: movie.id, genre_id:movie_genre.id)
+        3.times{Vhs.create(movie_id: movie.id)}
+    end
+
+
     private
 
     # generates serial number based on the title
