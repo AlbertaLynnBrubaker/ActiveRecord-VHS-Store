@@ -6,4 +6,8 @@ class Genre < ActiveRecord::Base
     Genre.all.sort_by{|genre| -genre.movies.size}.first(3).pluck :name
   end
 
+  def self.longest_movies
+    Genre.all.sort_by{|genre| -genre.movies.average(:length).to_f}.first
+  end
+
 end
