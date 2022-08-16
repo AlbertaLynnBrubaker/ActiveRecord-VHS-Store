@@ -3,7 +3,7 @@ class Genre < ActiveRecord::Base
   has_many :movies, through: :movie_genres
 
   def self.most_popular
-    Genre.all.sort_by{|genre| -genre.movies.size}.first(3).pluck :name
+    Genre.all.sort_by{|genre| -genre.movies.size}.first(3).pluck :name    
   end
 
   def self.longest_movies

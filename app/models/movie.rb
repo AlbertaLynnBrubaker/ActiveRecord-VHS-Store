@@ -3,6 +3,14 @@ class Movie < ActiveRecord::Base
   has_many :vhs
   has_many :genres, through: :movie_genres
 
+  def self.surprise_me
+    self.all.sample.title 
+  end
+
+  def self.longest
+    self.all.order(length: :desc)
+  end
+
   def report_stolen
     available_tapes = Vhs.available_now
     matching_tapes = available_tapes.select do |tape|
