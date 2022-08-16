@@ -3,8 +3,7 @@ class Genre < ActiveRecord::Base
   has_many :movies, through: :movie_genres
 
   def self.most_popular
-    MovieGenre.group(:movie_id).count.sort_by{|k, v| -v}.first(3).map{|k,v| Genre.find(k).name}
-    # MovieGenre.group(:movie_id).count.sort_by{|k, v| -v}.first(3).map {|genre| Genre.find(genre[1]).name}
+    Genre.all.sort_by{|genre| -genre.movies.size}.first(3).pluck :name
   end
 
 end
